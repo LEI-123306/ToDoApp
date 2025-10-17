@@ -34,7 +34,7 @@ jobs:
       - name: Upload JAR as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: my-app-jar
+          name: to-do-app
           path: "*.jar"
 
       # 6. Confirmação visual de arquivos gerados
