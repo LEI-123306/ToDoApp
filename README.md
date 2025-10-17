@@ -16,7 +16,7 @@ Passos do Workflow:
 6. Verificação final: lista os arquivos gerados para conferência.
 
 Excerto do Workflow:
-
+```
 name: Java Build Premium
 on:
   push:
@@ -38,6 +38,7 @@ jobs:
           name: my-app-jar
           path: "*.jar"
       - run: ls -lh target/ *.jar
+```
 
 ## Project Structure
 
