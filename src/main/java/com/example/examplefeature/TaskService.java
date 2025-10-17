@@ -59,6 +59,8 @@ public class TaskService {
         var task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
         task.setDone(done);
         taskRepository.saveAndFlush(task);
+    }
+    
     public String exportTasksToIcs() throws IOException {
         List<Task> tasks = taskRepository.findAll();
         Calendar calendar = new Calendar();
