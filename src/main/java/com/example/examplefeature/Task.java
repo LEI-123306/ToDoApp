@@ -5,6 +5,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "task")
@@ -27,12 +28,16 @@ public class Task {
     @Nullable
     private LocalDate dueDate;
 
+    @Column(name = "color")
+    private String color;
+
     protected Task() { // To keep Hibernate happy
     }
 
     public Task(String description, Instant creationDate) {
         setDescription(description);
         this.creationDate = creationDate;
+        this.color = com.example.ColorService.generateRandomColor();
     }
 
     public @Nullable Long getId() {
@@ -60,6 +65,52 @@ public class Task {
 
     public void setDueDate(@Nullable LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public enum Priority {
+        HIGH("HIGH", "danger"),
+        MEDIUM("MEDIUM", "warning"),
+        LOW("LOW", "success");
+
+        private final String displayName;
+        private final String themeVariant;
+
+        Priority(String displayName, String themeVariant) {
+            this.displayName = displayName;
+            this.themeVariant = themeVariant;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public String getThemeVariant() {
+            return themeVariant;
+        }
+    }
+
+    public Priority getPriority() {
+        if (dueDate == null) {
+            return Priority.LOW; // Sem data de conclusão = baixa prioridade
+        }
+
+        long daysUntilDue = ChronoUnit.DAYS.between(LocalDate.now(), dueDate);
+
+        if (daysUntilDue <= 2) {
+            return Priority.HIGH;
+        } else if (daysUntilDue <= 5) {
+            return Priority.MEDIUM;
+        } else {
+            return Priority.LOW;
+        }
     }
 
     @Override
