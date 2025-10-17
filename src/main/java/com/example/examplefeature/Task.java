@@ -27,6 +27,9 @@ public class Task {
     @Nullable
     private LocalDate dueDate;
 
+    @Column(name = "done")
+    private boolean done = false;
+
     protected Task() { // To keep Hibernate happy
     }
 
@@ -60,6 +63,14 @@ public class Task {
 
     public void setDueDate(@Nullable LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     @Override

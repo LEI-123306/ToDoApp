@@ -33,4 +33,16 @@ public class TaskService {
         return taskRepository.findAllBy(pageable).toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<Task> findAll() {
+        return taskRepository.findAll();
+    }
+
+    @Transactional
+    public void updateTaskDone(Long taskId, boolean done) {
+        var task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        task.setDone(done);
+        taskRepository.saveAndFlush(task);
+    }
+
 }

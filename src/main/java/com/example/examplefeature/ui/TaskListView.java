@@ -5,6 +5,7 @@ import com.example.examplefeature.Task;
 import com.example.examplefeature.TaskService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Main;
@@ -61,6 +62,15 @@ class TaskListView extends Main {
         taskGrid.addColumn(task -> Optional.ofNullable(task.getDueDate()).map(dateFormatter::format).orElse("Never"))
                 .setHeader("Due Date");
         taskGrid.addColumn(task -> dateTimeFormatter.format(task.getCreationDate())).setHeader("Creation Date");
+        taskGrid.addComponentColumn(task -> {
+            Checkbox checkbox = new Checkbox(task.isDone());
+            checkbox.addValueChangeListener(event -> {
+                taskService.updateTaskDone(task.getId(), event.getValue());
+                Notification.show("Task updated", 1000, Notification.Position.BOTTOM_END)
+                        .addThemeVariants(NotificationVariant.LUMO_CONTRAST);
+            });
+            return checkbox;
+        }).setHeader("Done");
         taskGrid.setSizeFull();
 
         setSizeFull();
