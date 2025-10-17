@@ -1,4 +1,4 @@
-name: Java Build Premium
+name: Build java package and add as artifact
 
 # Dispara sempre que houver push na branch principal
 on:
@@ -32,7 +32,7 @@ jobs:
 
       # 5. Upload do .jar como artefacto do workflow
       - name: Upload JAR as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: my-app-jar
           path: "*.jar"
