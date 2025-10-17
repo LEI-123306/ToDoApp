@@ -1,6 +1,42 @@
 # App README
 
-- [ ] TODO Replace or update this README with instructions relevant to your application
+# Build Pipeline
+
+Esta pipeline GitHub Actions é executada sempre que há um push para a branch principal (main).
+Ela realiza todas as etapas necessárias para compilar, gerar e disponibilizar o arquivo .jar do projeto.
+
+Passos do Workflow:
+
+1. Checkout do repositório: garante que o código mais recente esteja disponível.
+2. Configuração do Java 21+: usando Temurin para compatibilidade máxima.
+3. Compilação Maven: mvn clean package gera o arquivo .jar dentro da pasta target.
+4. Copiar .jar para raiz: permite download direto pela interface web do GitHub.
+5. Publicação do artefacto: garante que o .jar fique disponível como artefacto no workflow.
+6. Verificação final: lista os arquivos gerados para conferência.
+
+Excerto do Workflow:
+
+name: Java Build Premium
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: temurin
+      - run: mvn clean package
+      - run: cp target/*.jar .
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-app-jar
+          path: "*.jar"
+      - run: ls -lh target/ *.jar
 
 ## Project Structure
 
