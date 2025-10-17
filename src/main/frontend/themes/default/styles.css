@@ -1,1 +1,8 @@
-/* Add your styles here */
+/* Task row colors - styles for dynamic grid rows */
+
+/* We need to generate CSS variables for each possible color. However, since colors are random,
+   we would need to generate styles dynamically or use JavaScript to set them at runtime.
+
+   For now, let's add a few example colors that we can map to. */
+
+/* Commenting out as this needs dynamic CSS generation based on task colors */

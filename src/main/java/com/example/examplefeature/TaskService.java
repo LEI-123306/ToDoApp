@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+import org.apache.commons.collections4.ComparatorUtils;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Summary;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -85,4 +91,10 @@ public class TaskService {
         outputter.output(calendar, writer);
         return writer.toString();
     }
+    public List<Task> listSortedByPriority(Pageable pageable) {
+        List<Task> tasks = taskRepository.findAllBy(pageable).toList();
+        Comparator<Task> priorityComparator = Comparator.comparing(Task::getPriority);
+        return tasks.stream().sorted(priorityComparator).toList();
+    }
+
 }
