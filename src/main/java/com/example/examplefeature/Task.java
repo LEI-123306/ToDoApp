@@ -28,6 +28,8 @@ public class Task {
     @Nullable
     private LocalDate dueDate;
 
+    @Column(name = "done")
+    private boolean done = false;
     @Column(name = "color")
     private String color;
 
@@ -67,6 +69,12 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     public String getColor() {
         return color;
     }

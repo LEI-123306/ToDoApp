@@ -50,6 +50,15 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
+    public List<Task> findAll() {
+        return taskRepository.findAll();
+    }
+
+    @Transactional
+    public void updateTaskDone(Long taskId, boolean done) {
+        var task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task not found"));
+        task.setDone(done);
+        taskRepository.saveAndFlush(task);
     public String exportTasksToIcs() throws IOException {
         List<Task> tasks = taskRepository.findAll();
         Calendar calendar = new Calendar();
